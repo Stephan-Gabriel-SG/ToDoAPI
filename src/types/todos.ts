@@ -32,3 +32,11 @@ export type ErrorResponse = {
   };
   timestamp: string;
 };
+
+export type filter = {
+  tag?: string;
+  priority?: string;
+  isFavorite?: string;
+  isCompleted?: string;
+  search?: string;
+};
