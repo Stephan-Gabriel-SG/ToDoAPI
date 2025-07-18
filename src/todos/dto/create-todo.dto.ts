@@ -29,7 +29,6 @@ export class CreateTodoDto {
   title: string;
 
   @IsString({ message: 'La priorité doit être une chaîne de caractères.' })
-  @IsNotEmpty({ message: 'La priorité est obligatoire.' })
   @IsEnum(TodoPriority, {
     message: 'La priorité doit être "low", "medium" ou "high".',
   })
@@ -54,5 +53,10 @@ export class CreateTodoDto {
   @IsBoolean({ message: 'isFavorite doit être un booléen.' })
   @IsOptional()
   @Type(() => Boolean)
-  isFavorite?: boolean = false;
+  isFavorite?: boolean;
+
+  @IsBoolean({ message: 'isCompleted doit être un booléen.' })
+  @IsOptional()
+  @Type(() => Boolean)
+  isCompleted?: boolean;
 }
