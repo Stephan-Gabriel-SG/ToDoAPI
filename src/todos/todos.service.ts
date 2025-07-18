@@ -81,12 +81,28 @@ export class TodosService {
     });
     return {
       success: true,
-      message: 'Le todo a bien été mis à jour.',
+      message: `Le todo avec l'id ${id} a bien été mis à jour.`,
       data: updatedTodo,
     };
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} todo`;
+  remove(id: number): SuccessResponse | ErrorResponse {
+    const todoToBeDeleted = this.todos.find((todo) => todo.id === Number(id));
+    if (!todoToBeDeleted) {
+      return {
+        success: false,
+        error: {
+          code: 'NOT_FOUND',
+          message: 'Le todo n’a pas été rencontré.',
+        },
+        timestamp: new Date().toISOString(),
+      };
+    }
+    this.todos = this.todos.filter((todo) => todo.id !== Number(id));
+    return {
+      success: true,
+      message: `Le todo avec l'id ${id} a bien été supprimé.`,
+      data: todoToBeDeleted,
+    };
   }
 }
