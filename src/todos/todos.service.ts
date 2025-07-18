@@ -1,7 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
-import { ErrorResponse, SuccessResponse, todoList } from 'src/types/todos';
+import {
+  ErrorResponse,
+  filter,
+  SuccessResponse,
+  todoList,
+} from 'src/types/todos';
 
 @Injectable()
 export class TodosService {
@@ -15,8 +20,8 @@ export class TodosService {
       priority,
       description,
       tags,
-      isFavorite: isFavorite ?? false,
-      isCompleted: isCompleted ?? false,
+      isFavorite,
+      isCompleted,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     });
@@ -26,11 +31,39 @@ export class TodosService {
     };
   }
 
-  findAll(): SuccessResponse {
+  findAll(filter: filter): SuccessResponse {
+    const { tag, priority, isFavorite, isCompleted, search } = filter;
+
+    const filteredTodos = this.todos.filter((todo) => {
+      // Filtre par tag si spécifié
+      if (tag && !todo.tags?.includes(tag)) return false;
+
+      // Filtre par priorité si spécifiée
+      if (priority && todo.priority !== priority.toLowerCase()) return false;
+
+      // Filtre par favori si spécifié
+      if (isFavorite !== undefined && `${todo.isFavorite}` !== isFavorite)
+        return false;
+
+      // Filtre par complétion si spécifiée
+      if (isCompleted !== undefined && `${todo.isCompleted}` !== isCompleted)
+        return false;
+
+      // Filtre par recherche si spécifiée
+      if (search) {
+        const searchTerm = search.toLowerCase();
+        const titleMatch = todo.title.toLowerCase().includes(searchTerm);
+        const descMatch =
+          todo.description?.toLowerCase().includes(searchTerm) || false;
+        if (!titleMatch && !descMatch) return false;
+      }
+
+      return true;
+    });
     return {
       success: true,
-      message: 'Liste des todos',
-      data: this.todos,
+      message: `Liste des todos filtrée par ${JSON.stringify(filter)}.`,
+      data: filteredTodos,
     };
   }
 
@@ -93,7 +126,7 @@ export class TodosService {
         success: false,
         error: {
           code: 'NOT_FOUND',
-          message: 'Le todo n’a pas été rencontré.',
+          message: 'Le todo n’a pas été trouvé.',
         },
         timestamp: new Date().toISOString(),
       };
