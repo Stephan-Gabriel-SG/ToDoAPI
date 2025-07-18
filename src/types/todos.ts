@@ -5,6 +5,7 @@ export type todoEntry = {
   priority: string;
   tags?: string[];
   isFavorite?: boolean;
+  isCompleted?: boolean;
   createdAt: string;
   updatedAt: string;
 };
@@ -29,5 +30,5 @@ export type ErrorResponse = {
     message: string;
     details?: errorDetails[];
   };
-  timestamp: Date;
+  timestamp: string;
 };
