@@ -26,8 +26,12 @@ export class TodosService {
     };
   }
 
-  findAll() {
-    return this.todos;
+  findAll(): SuccessResponse {
+    return {
+      success: true,
+      message: 'Liste des todos',
+      data: this.todos,
+    };
   }
 
   findOne(id: number): SuccessResponse | ErrorResponse {
@@ -49,8 +53,37 @@ export class TodosService {
     };
   }
 
-  update(id: number, updateTodoDto: UpdateTodoDto) {
-    return `This action updates a #${id} todo`;
+  update(
+    id: number,
+    updateTodoDto: UpdateTodoDto,
+  ): SuccessResponse | ErrorResponse {
+    const todo = this.todos.find((todo) => todo.id === Number(id));
+    if (!todo) {
+      return {
+        success: false,
+        error: {
+          code: 'NOT_FOUND',
+          message: 'Le todo n’a pas été trouvé.',
+        },
+        timestamp: new Date().toISOString(),
+      };
+    }
+    const updatedTodo = {
+      ...todo,
+      ...updateTodoDto,
+      updatedAt: new Date().toISOString(),
+    };
+    this.todos = this.todos.map((todo) => {
+      if (todo.id === Number(id)) {
+        return updatedTodo;
+      }
+      return todo;
+    });
+    return {
+      success: true,
+      message: 'Le todo a bien été mis à jour.',
+      data: updatedTodo,
+    };
   }
 
   remove(id: number) {
