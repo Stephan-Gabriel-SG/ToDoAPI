@@ -6,10 +6,12 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { TodosService } from './todos.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
+import { filter } from 'src/types/todos';
 
 @Controller('todos')
 export class TodosController {
@@ -21,8 +23,11 @@ export class TodosController {
   }
 
   @Get()
-  findAll() {
-    return this.todosService.findAll();
+  findAll(
+    @Query()
+    filter: filter,
+  ) {
+    return this.todosService.findAll(filter);
   }
 
   @Get(':id')
