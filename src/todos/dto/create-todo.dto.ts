@@ -53,10 +53,10 @@ export class CreateTodoDto {
   @IsBoolean({ message: 'isFavorite doit être un booléen.' })
   @IsOptional()
   @Type(() => Boolean)
-  isFavorite?: boolean;
+  isFavorite?: boolean = false;
 
   @IsBoolean({ message: 'isCompleted doit être un booléen.' })
   @IsOptional()
   @Type(() => Boolean)
-  isCompleted?: boolean;
+  isCompleted?: boolean = false;
 }
