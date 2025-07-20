@@ -70,7 +70,7 @@
             <i class="bx bx-plus"></i> Ajouter une tâche
           </button>
           <button
-            class="button is-primary"
+            class="button is-primary is-outlined is-dark"
             id="toogleFilter"
             onclick="toggleFilter()"
           >
@@ -255,7 +255,9 @@
 
           <footer class="modal-card-foot">
             <div class="buttons">
-              <button type="submit" class="button is-success">Créer</button>
+              <button type="submit" class="button is-success" id="modalSubmit">
+                Créer
+              </button>
               <button type="button" class="button" onclick="toggleModal()">
                 Annuler
               </button>
@@ -516,6 +518,14 @@
     // Interaction avec les boutons
     function toggleModal() {
       document.getElementById('todoModal').classList.toggle('is-active');
+      if (
+        !document.getElementById('todoModal').classList.contains('is-active')
+      ) {
+        document.querySelector('.modal-card-title').textContent =
+          'Créer une nouvelle tâche';
+        document.querySelector('#modalSubmit').textContent = 'Créer';
+        document.getElementById('todoForm').reset();
+      }
     }
 
     // Interaction avec les filtres
@@ -575,6 +585,7 @@
       // Modifier le titre du modal
       document.querySelector('.modal-card-title').textContent =
         'Modifier la tâche';
+      document.querySelector('#modalSubmit').textContent = 'Modifier';
       let todo = todoList.find((todo) => todo.id === todoId);
       // Injecter les valeurs existantes
       document.getElementById('newTitle').value = todo.title;
