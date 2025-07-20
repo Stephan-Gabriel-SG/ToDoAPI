@@ -8,7 +8,6 @@ async function bootstrap() {
     new ValidationPipe({
       transform: true,
       transformOptions: {
-        // excludeExtraneousValues: true,
         exposeDefaultValues: true,
       },
     }),
