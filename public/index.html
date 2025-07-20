@@ -11,6 +11,7 @@
     <title>TodoList</title>
   </head>
   <body>
+    <div id="notificationArea" class="p-3"></div>
     <div id="root">
       <nav
         class="navbar has-shadow"
@@ -40,7 +41,6 @@
         </div>
       </nav>
       <div class="container">
-        <!-- <div class="field"> -->
         <div class="field has-addons">
           <p class="control has-icons-left is-expanded">
             <input
@@ -57,8 +57,15 @@
             <button class="button is-info">Rechercher</button>
           </p>
         </div>
-
-        <div class="filter box">
+        <div class="buttons">
+          <button class="button is-primary" onclick="toggleModal()">
+            <i class="bx bx-plus"></i> Ajouter une tâche
+          </button>
+          <button class="button is-primary" onclick="toggleFilter()">
+            <i class="bx bx-filter"></i> Filtrer les tâches
+          </button>
+        </div>
+        <div id="filters" class="filter box is-hidden">
           <h2 class="title is-5">Filtres</h2>
 
           <!-- Filtrer par priorité -->
@@ -115,8 +122,92 @@
         <div id="todos" class="columns is-multiline is-variable is-4"></div>
       </div>
     </div>
+    <div id="todoModal" class="modal">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Créer une nouvelle tâche</p>
+          <button
+            class="delete"
+            aria-label="close"
+            onclick="toggleModal()"
+          ></button>
+        </header>
+
+        <form id="todoForm" onsubmit="submitTodo(event)">
+          <section class="modal-card-body">
+            <!-- Titre -->
+            <div class="field">
+              <label class="label"
+                >Titre <span class="has-text-danger">*</span></label
+              >
+              <div class="control">
+                <input
+                  id="newTitle"
+                  class="input"
+                  type="text"
+                  placeholder="Titre de la tâche"
+                  required
+                />
+              </div>
+            </div>
+
+            <!-- Description -->
+            <div class="field">
+              <label class="label">Description</label>
+              <div class="control">
+                <textarea
+                  id="newDescription"
+                  class="textarea"
+                  placeholder="Description..."
+                ></textarea>
+              </div>
+            </div>
+
+            <!-- Priorité -->
+            <div class="field">
+              <label class="label"
+                >Priorité <span class="has-text-danger">*</span></label
+              >
+              <div class="control">
+                <div class="select">
+                  <select id="newPriority" required>
+                    <option value="">-- Choisir --</option>
+                    <option value="low">🟢 Basse</option>
+                    <option value="medium">🟠 Moyenne</option>
+                    <option value="high">🔴 Haute</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Favori -->
+            <div class="field">
+              <label class="checkbox">
+                <input type="checkbox" id="newFavorite" /> Marquer comme favori
+              </label>
+            </div>
+          </section>
+
+          <footer class="modal-card-foot">
+            <div class="buttons">
+              <button type="submit" class="button is-success">Créer</button>
+              <button type="button" class="button" onclick="toggleModal()">
+                Annuler
+              </button>
+            </div>
+          </footer>
+        </form>
+      </div>
+    </div>
   </body>
   <script type="text/javascript" async="true">
+    // Conversion de priorité
+    const priorityConvertion = {
+      high: 'Haute',
+      medium: 'Moyenne',
+      low: 'Basse',
+    };
     // Formatage formatISODate
     function formatISODate(isoString) {
       const date = new Date(isoString);
@@ -141,12 +232,18 @@
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            Accept: 'application/json',
           },
           body: JSON.stringify(todoData),
         });
 
         if (!response.ok) {
-          throw new Error(`Erreur HTTP: ${response.status}`);
+          const errorDetails = await response.json();
+          console.error(
+            "Détails de l'erreur:",
+            errorDetails.message.join(', '),
+          );
+          throw new Error(`${errorDetails.message.join(', ')}`);
         }
 
         return await response.json();
@@ -260,7 +357,7 @@
       <div class="card-content">
         <div class="content">
           ${todo.description ? `<p><strong>Description:</strong> ${todo.description}</p>` : ''}
-          <p><strong>Priorité:</strong> ${priorityIcon(todo.priority)} ${todo.priority}</p>
+          <p><strong>Priorité:</strong> ${priorityIcon(todo.priority)} ${priorityConvertion[todo.priority]}</p>
           ${todo.tags?.length ? `<p><strong>Tags:</strong> ${todo.tags.map((tag) => `<span class="tag is-info">${tag}</span>`).join(' ')}</p>` : ''}
           <label class="checkbox mt-2">
             <input type="checkbox" ${todo.isCompleted ? 'checked' : ''}> Complétée
@@ -293,7 +390,67 @@
       }
     }
 
+    // Fonction utilitaire pour afficher une notification
+    function showNotification(type, message, duration = 3000) {
+      const area = document.getElementById('notificationArea');
+
+      const notif = document.createElement('div');
+      notif.className = `notification is-${type} is-light`;
+      notif.style.zIndex = '9999';
+      notif.innerHTML = `
+    <button class="delete" onclick="this.parentElement.remove()"></button>
+    ${message}
+  `;
+
+      area.appendChild(notif);
+
+      setTimeout(() => {
+        notif.remove();
+      }, duration);
+    }
+
+    // Interaction avec les boutons
+    function toggleModal() {
+      document.getElementById('todoModal').classList.toggle('is-active');
+    }
+    function toggleFilter() {
+      document.getElementById('filters').classList.toggle('is-hidden');
+    }
+
+    function submitTodo(event) {
+      event.preventDefault();
+
+      const description = document.getElementById('newDescription').value;
+      const newTodo = {
+        title: document.getElementById('newTitle').value,
+        priority: document.getElementById('newPriority').value,
+        isFavorite: document.getElementById('newFavorite').checked,
+      };
+
+      if (description.length > 0) {
+        newTodo.description = description;
+      }
+
+      createTodo(newTodo)
+        .then((response) => {
+          if (response.success) {
+            showNotification('success', response.message);
+            toggleModal();
+            document.getElementById('todoForm').reset();
+            todoList.push(response.data);
+            renderTodos(todoList);
+          } else {
+            showNotification('danger', response.message);
+          }
+        })
+        .catch((error) => {
+          showNotification('danger', error);
+        });
+    }
+
+    // Initialisation de la liste des tâches
     let todoList = [];
+
     getAllTodos().then((response) => {
       if (response.success) {
         todoList = response.data;
