@@ -4,15 +4,14 @@ import {
   MinLength,
   MaxLength, // Ajout de MaxLength pour le titre
   IsOptional, // Pour les champs optionnels
-  IsBoolean, // Pour isFavorite
-  IsArray, // Pour les tags
+  IsBoolean,
+  IsArray,
   ArrayUnique, // Pour s'assurer que les tags sont uniques
-  IsEnum, // Si la priorité est une valeur fixe (ex: 'low', 'medium', 'high')
+  IsEnum, // Pour la priorité qui est une valeur fixe (ex: 'low', 'medium', 'high')
 } from 'class-validator';
-import { Type } from 'class-transformer'; // Pour la transformation des dates et des booleens
+import { Type } from 'class-transformer'; // Pour la transformation des booleens
 
-// Optionnel: Si vous avez des priorités fixes, définissez un enum
-// C'est une bonne pratique pour éviter des valeurs arbitraires
+// Enum pour les priorités
 export enum TodoPriority {
   LOW = 'low',
   MEDIUM = 'medium',
