@@ -154,8 +154,14 @@ export class TodosService {
       };
     }
     const updatedTodo = {
-      ...todo,
-      ...updateTodoDto,
+      id: todo.id,
+      title: updateTodoDto.title || todo.title,
+      description: updateTodoDto.description || todo.description,
+      priority: updateTodoDto.priority || todo.priority,
+      tags: updateTodoDto.tags || todo.tags,
+      isFavorite: updateTodoDto.isFavorite || todo.isFavorite,
+      isCompleted: updateTodoDto.isCompleted || todo.isCompleted,
+      createdAt: todo.createdAt,
       updatedAt: new Date().toISOString(),
     };
     this.todos = this.todos.map((todo) => {
