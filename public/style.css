@@ -16,14 +16,14 @@ body {
 }
 
 #root {
-  min-height: calc(100vh - 12rem);
+  min-height: calc(100vh - 8rem);
 }
 
 .container {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding-block: 20px;
+  gap: 15px;
+  padding-block: 2.5rem;
 }
 
 #todos {
@@ -114,8 +114,8 @@ body {
 
 /* Footer */
 .footer {
-  padding: 1rem 0.5rem;
+  padding: 1.2rem 0.5rem;
   background-color: #f9f9f9;
   border-top: 1px solid #ddd;
-  margin-top: 4rem;
+  margin-top: 2rem;
 }

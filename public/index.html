@@ -40,14 +40,18 @@
 
         <div id="navbarMenu" class="navbar-menu">
           <div class="navbar-end">
-            <a class="navbar-item" href="/">Accueil</a>
-            <a class="navbar-item" href="/docs.html">Documentation</a>
+            <a class="navbar-item" href="/"
+              ><i class="bx bxs-home-heart has-text-primary"></i>Accueil</a
+            >
+            <a class="navbar-item" href="/docs.html"
+              ><i class="bx bxs-file-doc has-text-primary"></i>Documentation</a
+            >
           </div>
         </div>
       </nav>
 
       <div class="container">
-        <div class="field has-addons py-5">
+        <div class="field has-addons">
           <p class="control has-icons-left is-expanded">
             <input
               id="search"
@@ -78,7 +82,10 @@
             <span id="filterCount" class="tag is-light is-info ml-2">0</span>
           </button>
         </div>
-        <div id="filters" class="box has-background-light is-hidden">
+        <div
+          id="filters"
+          class="box has-background-light is-hidden is-four-fifths"
+        >
           <h2 class="title is-4 has-text-centered mb-4">Filtres des tâches</h2>
 
           <div class="columns is-multiline is-centered">
@@ -113,7 +120,9 @@
                 </div>
               </div>
             </div>
+          </div>
 
+          <div class="columns is-multiline is-centered">
             <!-- Favoris -->
             <div class="column is-6">
               <div class="field">
@@ -129,7 +138,6 @@
                 </div>
               </div>
             </div>
-
             <!-- Complétés -->
             <div class="column is-6">
               <div class="field">
@@ -267,7 +275,7 @@
       </div>
     </div>
     <footer class="footer">
-      <div class="container has-text-centered">
+      <div class="has-text-centered">
         <p class="footer-text">
           &copy; <span id="year"></span> - Tous droits réservés à
           <strong class="has-text-primary"
