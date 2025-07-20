@@ -48,36 +48,35 @@
           </div>
         </div>
       </nav>
-    </div>
 
-    <div class="container" style="padding: 2rem 1rem">
-      <h1 class="title is-3">Documentation API TodoList</h1>
-      <p class="subtitle is-5">
-        Documentation complète pour l'API de gestion des tâches
-      </p>
-
-      <div class="content">
-        <h2 class="title is-4">Introduction</h2>
-        <p>
-          L'API TodoList permet de gérer une liste de tâches avec les
-          fonctionnalités suivantes :
+      <div class="container" style="padding: 2rem 1rem">
+        <h1 class="title is-3">Documentation API TodoList</h1>
+        <p class="subtitle is-5">
+          Documentation complète pour l'API de gestion des tâches
         </p>
-        <ul>
-          <li>Création, lecture, mise à jour et suppression de tâches</li>
-          <li>Filtrage par tag, statut, priorité et recherche textuelle</li>
-          <li>Marquage des tâches favorites</li>
-          <li>Validation des données côté serveur</li>
-        </ul>
 
-        <h2 class="title is-4">Base URL</h2>
-        <div class="notification is-light">
-          <code>http://localhost:3000/todos</code>
-        </div>
+        <div class="content">
+          <h2 class="title is-4">Introduction</h2>
+          <p>
+            L'API TodoList permet de gérer une liste de tâches avec les
+            fonctionnalités suivantes :
+          </p>
+          <ul>
+            <li>Création, lecture, mise à jour et suppression de tâches</li>
+            <li>Filtrage par tag, statut, priorité et recherche textuelle</li>
+            <li>Marquage des tâches favorites</li>
+            <li>Validation des données côté serveur</li>
+          </ul>
 
-        <h2 class="title is-4">Structure des données</h2>
-        <div class="box">
-          <h3 class="title is-5">Todo Object</h3>
-          <pre><code class="language-json">{
+          <h2 class="title is-4">Base URL</h2>
+          <div class="notification is-light">
+            <code>http://localhost:3000/todos</code>
+          </div>
+
+          <h2 class="title is-4">Structure des données</h2>
+          <div class="box">
+            <h3 class="title is-5">Todo Object</h3>
+            <pre><code class="language-json">{
   "id": number,
   "title": string,
   "description": string,
@@ -88,19 +87,19 @@
   "createdAt": string,
   "updatedAt": string
 }</code></pre>
-        </div>
+          </div>
 
-        <div class="box">
-          <h3 class="title is-5">Réponses</h3>
-          <p><strong>Succès:</strong></p>
-          <pre><code class="language-json">{
+          <div class="box">
+            <h3 class="title is-5">Réponses</h3>
+            <p><strong>Succès:</strong></p>
+            <pre><code class="language-json">{
   "success": true,
   "message": string,
   "data": Todo | Todo[]
 }</code></pre>
 
-          <p><strong>Erreur:</strong></p>
-          <pre><code class="language-json">{
+            <p><strong>Erreur:</strong></p>
+            <pre><code class="language-json">{
   "success": false,
   "error": {
     "code": string,
@@ -114,90 +113,90 @@
   },
   "timestamp": string
 }</code></pre>
-        </div>
+          </div>
 
-        <h2 class="title is-4">Endpoints</h2>
+          <h2 class="title is-4">Endpoints</h2>
 
-        <!-- CREATE -->
-        <div class="card endpoint-card">
-          <div class="card-content">
-            <div class="media">
-              <div class="media-content">
-                <p class="title is-4">POST /todos</p>
-                <p class="subtitle is-6">Créer une nouvelle tâche</p>
+          <!-- CREATE -->
+          <div class="card endpoint-card">
+            <div class="card-content">
+              <div class="media">
+                <div class="media-content">
+                  <p class="title is-4">POST /todos</p>
+                  <p class="subtitle is-6">Créer une nouvelle tâche</p>
+                </div>
+                <div class="media-right">
+                  <span class="tag is-primary">POST</span>
+                </div>
               </div>
-              <div class="media-right">
-                <span class="tag is-primary">POST</span>
-              </div>
-            </div>
 
-            <div class="content">
-              <h4 class="title is-5">Paramètres</h4>
-              <table class="table is-fullwidth">
-                <thead>
-                  <tr>
-                    <th>Champ</th>
-                    <th>Type</th>
-                    <th>Requis</th>
-                    <th>Description</th>
-                    <th>Validation</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>title</td>
-                    <td>string</td>
-                    <td>Oui</td>
-                    <td>Titre de la tâche</td>
-                    <td>3-100 caractères</td>
-                  </tr>
-                  <tr>
-                    <td>priority</td>
-                    <td>string</td>
-                    <td>Oui</td>
-                    <td>Priorité de la tâche</td>
-                    <td>low, medium ou high</td>
-                  </tr>
-                  <tr>
-                    <td>description</td>
-                    <td>string</td>
-                    <td>Non</td>
-                    <td>Description détaillée</td>
-                    <td>Min 10 caractères si fourni</td>
-                  </tr>
-                  <tr>
-                    <td>tags</td>
-                    <td>string[]</td>
-                    <td>Non</td>
-                    <td>Liste de tags</td>
-                    <td>Tags uniques</td>
-                  </tr>
-                  <tr>
-                    <td>isFavorite</td>
-                    <td>boolean</td>
-                    <td>Non</td>
-                    <td>Tâche favorite</td>
-                    <td>Booléen</td>
-                  </tr>
-                  <tr>
-                    <td>isCompleted</td>
-                    <td>boolean</td>
-                    <td>Non</td>
-                    <td>Tâche complétée</td>
-                    <td>Booléen</td>
-                  </tr>
-                </tbody>
-              </table>
+              <div class="content">
+                <h4 class="title is-5">Paramètres</h4>
+                <table class="table is-fullwidth">
+                  <thead>
+                    <tr>
+                      <th>Champ</th>
+                      <th>Type</th>
+                      <th>Requis</th>
+                      <th>Description</th>
+                      <th>Validation</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>title</td>
+                      <td>string</td>
+                      <td>Oui</td>
+                      <td>Titre de la tâche</td>
+                      <td>3-100 caractères</td>
+                    </tr>
+                    <tr>
+                      <td>priority</td>
+                      <td>string</td>
+                      <td>Oui</td>
+                      <td>Priorité de la tâche</td>
+                      <td>low, medium ou high</td>
+                    </tr>
+                    <tr>
+                      <td>description</td>
+                      <td>string</td>
+                      <td>Non</td>
+                      <td>Description détaillée</td>
+                      <td>Min 10 caractères si fourni</td>
+                    </tr>
+                    <tr>
+                      <td>tags</td>
+                      <td>string[]</td>
+                      <td>Non</td>
+                      <td>Liste de tags</td>
+                      <td>Tags uniques</td>
+                    </tr>
+                    <tr>
+                      <td>isFavorite</td>
+                      <td>boolean</td>
+                      <td>Non</td>
+                      <td>Tâche favorite</td>
+                      <td>Booléen</td>
+                    </tr>
+                    <tr>
+                      <td>isCompleted</td>
+                      <td>boolean</td>
+                      <td>Non</td>
+                      <td>Tâche complétée</td>
+                      <td>Booléen</td>
+                    </tr>
+                  </tbody>
+                </table>
 
-              <div class="try-it-section">
-                <h4 class="title is-5">Essayer</h4>
-                <div class="field">
-                  <label class="label">Données JSON</label>
-                  <div class="control">
-                    <textarea
-                      class="textarea create-data"
-                      rows="6"
-                      placeholder='{
+                <div class="try-it-section">
+                  <h4 class="title is-5">Essayer</h4>
+                  <div class="field">
+                    <label class="label">Données JSON</label>
+                    <div class="control">
+                      <textarea
+                        class="textarea create-data"
+                        rows="6"
+                        placeholder='{
   "title": "Ma nouvelle tâche",
   "priority": "medium",
   "description": "Description détaillée de la tâche",
@@ -205,431 +204,436 @@
   "isFavorite": false,
   "isCompleted": false
 }'
-                    ></textarea>
+                      ></textarea>
+                    </div>
                   </div>
+                  <button class="button is-primary try-create">Envoyer</button>
+                  <div class="response-area create-response"></div>
                 </div>
-                <button class="button is-primary try-create">Envoyer</button>
-                <div class="response-area create-response"></div>
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- GET ALL -->
-        <div class="card endpoint-card">
-          <div class="card-content">
-            <div class="media">
-              <div class="media-content">
-                <p class="title is-4">GET /todos</p>
-                <p class="subtitle is-6">Lister toutes les tâches</p>
+          <!-- GET ALL -->
+          <div class="card endpoint-card">
+            <div class="card-content">
+              <div class="media">
+                <div class="media-content">
+                  <p class="title is-4">GET /todos</p>
+                  <p class="subtitle is-6">Lister toutes les tâches</p>
+                </div>
+                <div class="media-right">
+                  <span class="tag is-info">GET</span>
+                </div>
               </div>
-              <div class="media-right">
-                <span class="tag is-info">GET</span>
-              </div>
-            </div>
 
-            <div class="content">
-              <h4 class="title is-5">Paramètres de requête</h4>
-              <table class="table is-fullwidth">
-                <thead>
-                  <tr>
-                    <th>Paramètre</th>
-                    <th>Type</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>tag</td>
-                    <td>string</td>
-                    <td>Filtrer par un tag</td>
-                  </tr>
-                  <tr>
-                    <td>isCompleted</td>
-                    <td>boolean</td>
-                    <td>Filtrer par statut de complétion</td>
-                  </tr>
-                  <tr>
-                    <td>isFavorite</td>
-                    <td>boolean</td>
-                    <td>Filtrer par favoris</td>
-                  </tr>
-                  <tr>
-                    <td>priority</td>
-                    <td>string</td>
-                    <td>Filtrer par priorité (low, medium, high)</td>
-                  </tr>
-                  <tr>
-                    <td>search</td>
-                    <td>string</td>
-                    <td>Recherche textuelle dans le titre et description</td>
-                  </tr>
-                </tbody>
-              </table>
+              <div class="content">
+                <h4 class="title is-5">Paramètres de requête</h4>
+                <table class="table is-fullwidth">
+                  <thead>
+                    <tr>
+                      <th>Paramètre</th>
+                      <th>Type</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>tag</td>
+                      <td>string</td>
+                      <td>Filtrer par un tag</td>
+                    </tr>
+                    <tr>
+                      <td>isCompleted</td>
+                      <td>boolean</td>
+                      <td>Filtrer par statut de complétion</td>
+                    </tr>
+                    <tr>
+                      <td>isFavorite</td>
+                      <td>boolean</td>
+                      <td>Filtrer par favoris</td>
+                    </tr>
+                    <tr>
+                      <td>priority</td>
+                      <td>string</td>
+                      <td>Filtrer par priorité (low, medium, high)</td>
+                    </tr>
+                    <tr>
+                      <td>search</td>
+                      <td>string</td>
+                      <td>Recherche textuelle dans le titre et description</td>
+                    </tr>
+                  </tbody>
+                </table>
 
-              <div class="try-it-section">
-                <h4 class="title is-5">Essayer</h4>
-                <div class="field is-horizontal">
-                  <div class="field-body">
-                    <div class="field">
-                      <label class="label">Tag</label>
-                      <div class="control">
-                        <input
-                          class="input get-tags"
-                          type="text"
-                          placeholder="travail"
-                        />
+                <div class="try-it-section">
+                  <h4 class="title is-5">Essayer</h4>
+                  <div class="field is-horizontal">
+                    <div class="field-body">
+                      <div class="field">
+                        <label class="label">Tag</label>
+                        <div class="control">
+                          <input
+                            class="input get-tags"
+                            type="text"
+                            placeholder="travail"
+                          />
+                        </div>
                       </div>
-                    </div>
-                    <div class="field">
-                      <label class="label">Priority</label>
-                      <div class="control">
-                        <div class="select">
-                          <select class="get-priority">
-                            <option value="">Toutes</option>
-                            <option value="low">Low</option>
-                            <option value="medium">Medium</option>
-                            <option value="high">High</option>
-                          </select>
+                      <div class="field">
+                        <label class="label">Priority</label>
+                        <div class="control">
+                          <div class="select">
+                            <select class="get-priority">
+                              <option value="">Toutes</option>
+                              <option value="low">Low</option>
+                              <option value="medium">Medium</option>
+                              <option value="high">High</option>
+                            </select>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div class="field is-horizontal">
-                  <div class="field-body">
-                    <div class="field">
-                      <label class="label">Status</label>
-                      <div class="control">
-                        <div class="select">
-                          <select class="get-status">
-                            <option value="">Tous</option>
-                            <option value="true">Complété</option>
-                            <option value="false">Non complété</option>
-                          </select>
+                  <div class="field is-horizontal">
+                    <div class="field-body">
+                      <div class="field">
+                        <label class="label">Status</label>
+                        <div class="control">
+                          <div class="select">
+                            <select class="get-status">
+                              <option value="">Tous</option>
+                              <option value="true">Complété</option>
+                              <option value="false">Non complété</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="field">
+                        <label class="label">Favoris</label>
+                        <div class="control">
+                          <div class="select">
+                            <select class="get-favorite">
+                              <option value="">Tous</option>
+                              <option value="true">Favoris</option>
+                              <option value="false">Non favoris</option>
+                            </select>
+                          </div>
                         </div>
                       </div>
                     </div>
-                    <div class="field">
-                      <label class="label">Favoris</label>
-                      <div class="control">
-                        <div class="select">
-                          <select class="get-favorite">
-                            <option value="">Tous</option>
-                            <option value="true">Favoris</option>
-                            <option value="false">Non favoris</option>
-                          </select>
-                        </div>
-                      </div>
+                  </div>
+                  <div class="field">
+                    <label class="label">Recherche</label>
+                    <div class="control">
+                      <input
+                        class="input get-search"
+                        type="text"
+                        placeholder="Recherche textuelle"
+                      />
                     </div>
                   </div>
+                  <button class="button is-info try-get-all">Envoyer</button>
+                  <div class="response-area get-all-response"></div>
                 </div>
-                <div class="field">
-                  <label class="label">Recherche</label>
-                  <div class="control">
-                    <input
-                      class="input get-search"
-                      type="text"
-                      placeholder="Recherche textuelle"
-                    />
-                  </div>
-                </div>
-                <button class="button is-info try-get-all">Envoyer</button>
-                <div class="response-area get-all-response"></div>
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- GET ONE -->
-        <div class="card endpoint-card">
-          <div class="card-content">
-            <div class="media">
-              <div class="media-content">
-                <p class="title is-4">GET /todos/:id</p>
-                <p class="subtitle is-6">Obtenir une tâche spécifique</p>
-              </div>
-              <div class="media-right">
-                <span class="tag is-info">GET</span>
-              </div>
-            </div>
-
-            <div class="content">
-              <h4 class="title is-5">Paramètres</h4>
-              <table class="table is-fullwidth">
-                <thead>
-                  <tr>
-                    <th>Paramètre</th>
-                    <th>Type</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>id</td>
-                    <td>number</td>
-                    <td>ID de la tâche</td>
-                  </tr>
-                </tbody>
-              </table>
-
-              <div class="try-it-section">
-                <h4 class="title is-5">Essayer</h4>
-                <div class="field">
-                  <label class="label">ID de la tâche</label>
-                  <div class="control">
-                    <input class="input get-id" type="number" placeholder="1" />
-                  </div>
+          <!-- GET ONE -->
+          <div class="card endpoint-card">
+            <div class="card-content">
+              <div class="media">
+                <div class="media-content">
+                  <p class="title is-4">GET /todos/:id</p>
+                  <p class="subtitle is-6">Obtenir une tâche spécifique</p>
                 </div>
-                <button class="button is-info try-get-one">Envoyer</button>
-                <div class="response-area get-one-response"></div>
+                <div class="media-right">
+                  <span class="tag is-info">GET</span>
+                </div>
+              </div>
+
+              <div class="content">
+                <h4 class="title is-5">Paramètres</h4>
+                <table class="table is-fullwidth">
+                  <thead>
+                    <tr>
+                      <th>Paramètre</th>
+                      <th>Type</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>id</td>
+                      <td>number</td>
+                      <td>ID de la tâche</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <div class="try-it-section">
+                  <h4 class="title is-5">Essayer</h4>
+                  <div class="field">
+                    <label class="label">ID de la tâche</label>
+                    <div class="control">
+                      <input
+                        class="input get-id"
+                        type="number"
+                        placeholder="1"
+                      />
+                    </div>
+                  </div>
+                  <button class="button is-info try-get-one">Envoyer</button>
+                  <div class="response-area get-one-response"></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- UPDATE -->
-        <div class="card endpoint-card">
-          <div class="card-content">
-            <div class="media">
-              <div class="media-content">
-                <p class="title is-4">PATCH /todos/:id</p>
-                <p class="subtitle is-6">Mettre à jour une tâche</p>
-              </div>
-              <div class="media-right">
-                <span class="tag is-warning">PATCH</span>
-              </div>
-            </div>
-
-            <div class="content">
-              <p>
-                Mettre à jour partiellement une tâche. Seuls les champs fournis
-                seront mis à jour.
-              </p>
-
-              <div class="try-it-section">
-                <h4 class="title is-5">Essayer</h4>
-                <div class="field">
-                  <label class="label">ID de la tâche</label>
-                  <div class="control">
-                    <input
-                      class="input update-id"
-                      type="number"
-                      placeholder="1"
-                    />
-                  </div>
+          <!-- UPDATE -->
+          <div class="card endpoint-card">
+            <div class="card-content">
+              <div class="media">
+                <div class="media-content">
+                  <p class="title is-4">PATCH /todos/:id</p>
+                  <p class="subtitle is-6">Mettre à jour une tâche</p>
                 </div>
-                <div class="field">
-                  <label class="label">Données JSON</label>
-                  <div class="control">
-                    <textarea
-                      class="textarea update-data"
-                      rows="6"
-                      placeholder='{
+                <div class="media-right">
+                  <span class="tag is-warning">PATCH</span>
+                </div>
+              </div>
+
+              <div class="content">
+                <p>
+                  Mettre à jour partiellement une tâche. Seuls les champs
+                  fournis seront mis à jour.
+                </p>
+
+                <div class="try-it-section">
+                  <h4 class="title is-5">Essayer</h4>
+                  <div class="field">
+                    <label class="label">ID de la tâche</label>
+                    <div class="control">
+                      <input
+                        class="input update-id"
+                        type="number"
+                        placeholder="1"
+                      />
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label class="label">Données JSON</label>
+                    <div class="control">
+                      <textarea
+                        class="textarea update-data"
+                        rows="6"
+                        placeholder='{
   "title": "Nouveau titre",
   "isCompleted": true
 }'
-                    ></textarea>
+                      ></textarea>
+                    </div>
                   </div>
+                  <button class="button is-warning try-update">Envoyer</button>
+                  <div class="response-area update-response"></div>
                 </div>
-                <button class="button is-warning try-update">Envoyer</button>
-                <div class="response-area update-response"></div>
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- DELETE -->
-        <div class="card endpoint-card">
-          <div class="card-content">
-            <div class="media">
-              <div class="media-content">
-                <p class="title is-4">DELETE /todos/:id</p>
-                <p class="subtitle is-6">Supprimer une tâche</p>
-              </div>
-              <div class="media-right">
-                <span class="tag is-danger">DELETE</span>
-              </div>
-            </div>
-
-            <div class="content">
-              <div class="try-it-section">
-                <h4 class="title is-5">Essayer</h4>
-                <div class="field">
-                  <label class="label">ID de la tâche</label>
-                  <div class="control">
-                    <input
-                      class="input delete-id"
-                      type="number"
-                      placeholder="1"
-                    />
-                  </div>
+          <!-- DELETE -->
+          <div class="card endpoint-card">
+            <div class="card-content">
+              <div class="media">
+                <div class="media-content">
+                  <p class="title is-4">DELETE /todos/:id</p>
+                  <p class="subtitle is-6">Supprimer une tâche</p>
                 </div>
-                <button class="button is-danger try-delete">Envoyer</button>
-                <div class="response-area delete-response"></div>
+                <div class="media-right">
+                  <span class="tag is-danger">DELETE</span>
+                </div>
+              </div>
+
+              <div class="content">
+                <div class="try-it-section">
+                  <h4 class="title is-5">Essayer</h4>
+                  <div class="field">
+                    <label class="label">ID de la tâche</label>
+                    <div class="control">
+                      <input
+                        class="input delete-id"
+                        type="number"
+                        placeholder="1"
+                      />
+                    </div>
+                  </div>
+                  <button class="button is-danger try-delete">Envoyer</button>
+                  <div class="response-area delete-response"></div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        // Initialiser le highlight.js pour la coloration syntaxique
-        hljs.highlightAll();
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          // Initialiser le highlight.js pour la coloration syntaxique
+          hljs.highlightAll();
 
-        // Fonctions pour interagir avec l'API
-        const apiUrl = 'http://localhost:3000/todos';
+          // Fonctions pour interagir avec l'API
+          const apiUrl = 'http://localhost:3000/todos';
 
-        async function makeRequest(url, method, data = null) {
-          const options = {
-            method,
-            headers: {
-              'Content-Type': 'application/json',
-              Accept: 'application/json',
-            },
-          };
+          async function makeRequest(url, method, data = null) {
+            const options = {
+              method,
+              headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+              },
+            };
 
-          if (data) {
-            options.body = JSON.stringify(data);
+            if (data) {
+              options.body = JSON.stringify(data);
+            }
+
+            try {
+              const response = await fetch(url, options);
+              const result = await response.json();
+
+              if (!response.ok) {
+                throw result;
+              }
+
+              return result;
+            } catch (error) {
+              throw error;
+            }
           }
 
-          try {
-            const response = await fetch(url, options);
-            const result = await response.json();
-
-            if (!response.ok) {
-              throw result;
-            }
-
-            return result;
-          } catch (error) {
-            throw error;
+          function displayResponse(selector, data) {
+            const element = document.querySelector(selector);
+            element.textContent = JSON.stringify(data, null, 2);
+            hljs.highlightElement(element);
           }
-        }
 
-        function displayResponse(selector, data) {
-          const element = document.querySelector(selector);
-          element.textContent = JSON.stringify(data, null, 2);
-          hljs.highlightElement(element);
-        }
+          // Gestionnaires d'événements pour les boutons "Essayer"
+          document
+            .querySelector('.try-create')
+            .addEventListener('click', async () => {
+              try {
+                const data = JSON.parse(
+                  document.querySelector('.create-data').value,
+                );
+                const response = await makeRequest(apiUrl, 'POST', data);
+                displayResponse('.create-response', response);
+              } catch (error) {
+                displayResponse('.create-response', error);
+              }
+            });
 
-        // Gestionnaires d'événements pour les boutons "Essayer"
-        document
-          .querySelector('.try-create')
-          .addEventListener('click', async () => {
-            try {
-              const data = JSON.parse(
-                document.querySelector('.create-data').value,
-              );
-              const response = await makeRequest(apiUrl, 'POST', data);
-              displayResponse('.create-response', response);
-            } catch (error) {
-              displayResponse('.create-response', error);
-            }
-          });
+          document
+            .querySelector('.try-get-all')
+            .addEventListener('click', async () => {
+              try {
+                const params = new URLSearchParams();
+                const tags = document.querySelector('.get-tags').value;
+                const priority = document.querySelector('.get-priority').value;
+                const status = document.querySelector('.get-status').value;
+                const favorite = document.querySelector('.get-favorite').value;
+                const search = document.querySelector('.get-search').value;
 
-        document
-          .querySelector('.try-get-all')
-          .addEventListener('click', async () => {
-            try {
-              const params = new URLSearchParams();
-              const tags = document.querySelector('.get-tags').value;
-              const priority = document.querySelector('.get-priority').value;
-              const status = document.querySelector('.get-status').value;
-              const favorite = document.querySelector('.get-favorite').value;
-              const search = document.querySelector('.get-search').value;
+                if (tags) params.append('tag', tags);
+                if (priority) params.append('priority', priority);
+                if (status) params.append('isCompleted', status);
+                if (favorite) params.append('isFavorite', favorite);
+                if (search) params.append('search', search);
 
-              if (tags) params.append('tag', tags);
-              if (priority) params.append('priority', priority);
-              if (status) params.append('isCompleted', status);
-              if (favorite) params.append('isFavorite', favorite);
-              if (search) params.append('search', search);
+                const url = `${apiUrl}?${params.toString()}`;
+                const response = await makeRequest(url, 'GET');
+                displayResponse('.get-all-response', response);
+              } catch (error) {
+                displayResponse('.get-all-response', error);
+              }
+            });
 
-              const url = `${apiUrl}?${params.toString()}`;
-              const response = await makeRequest(url, 'GET');
-              displayResponse('.get-all-response', response);
-            } catch (error) {
-              displayResponse('.get-all-response', error);
-            }
-          });
+          document
+            .querySelector('.try-get-one')
+            .addEventListener('click', async () => {
+              try {
+                const id = document.querySelector('.get-id').value;
+                if (!id) throw { error: { message: 'Veuillez entrer un ID' } };
 
-        document
-          .querySelector('.try-get-one')
-          .addEventListener('click', async () => {
-            try {
-              const id = document.querySelector('.get-id').value;
-              if (!id) throw { error: { message: 'Veuillez entrer un ID' } };
+                const response = await makeRequest(`${apiUrl}/${id}`, 'GET');
+                displayResponse('.get-one-response', response);
+              } catch (error) {
+                displayResponse('.get-one-response', error);
+              }
+            });
 
-              const response = await makeRequest(`${apiUrl}/${id}`, 'GET');
-              displayResponse('.get-one-response', response);
-            } catch (error) {
-              displayResponse('.get-one-response', error);
-            }
-          });
+          document
+            .querySelector('.try-update')
+            .addEventListener('click', async () => {
+              try {
+                const id = document.querySelector('.update-id').value;
+                if (!id) throw { error: { message: 'Veuillez entrer un ID' } };
 
-        document
-          .querySelector('.try-update')
-          .addEventListener('click', async () => {
-            try {
-              const id = document.querySelector('.update-id').value;
-              if (!id) throw { error: { message: 'Veuillez entrer un ID' } };
+                const data = JSON.parse(
+                  document.querySelector('.update-data').value,
+                );
+                const response = await makeRequest(
+                  `${apiUrl}/${id}`,
+                  'PATCH',
+                  data,
+                );
+                displayResponse('.update-response', response);
+              } catch (error) {
+                displayResponse('.update-response', error);
+              }
+            });
 
-              const data = JSON.parse(
-                document.querySelector('.update-data').value,
-              );
-              const response = await makeRequest(
-                `${apiUrl}/${id}`,
-                'PATCH',
-                data,
-              );
-              displayResponse('.update-response', response);
-            } catch (error) {
-              displayResponse('.update-response', error);
-            }
-          });
+          document
+            .querySelector('.try-delete')
+            .addEventListener('click', async () => {
+              try {
+                const id = document.querySelector('.delete-id').value;
+                if (!id) throw { error: { message: 'Veuillez entrer un ID' } };
 
-        document
-          .querySelector('.try-delete')
-          .addEventListener('click', async () => {
-            try {
-              const id = document.querySelector('.delete-id').value;
-              if (!id) throw { error: { message: 'Veuillez entrer un ID' } };
-
-              const response = await makeRequest(`${apiUrl}/${id}`, 'DELETE');
-              displayResponse(
-                '.delete-response',
-                response || { message: 'Tâche supprimée avec succès' },
-              );
-            } catch (error) {
-              displayResponse('.delete-response', error);
-            }
-          });
-      });
-    </script>
-    <footer class="footer has-text-centered">
-      <div class="container">
-        <p class="is-size-6">
-          &copy; <span id="year"></span> - Tous droits réservés à
-          <strong>Stéphan Gabriel NANDRASANTSOA</strong>
-        </p>
-      </div>
-    </footer>
-
-    <script>
-      // Ajoute l'année automatiquement
-      document.getElementById('year').textContent = new Date().getFullYear();
-      document.addEventListener('DOMContentLoaded', () => {
-        const burger = document.getElementById('burgerBtn');
-        const menu = document.getElementById('navbarMenu');
-
-        burger.addEventListener('click', () => {
-          burger.classList.toggle('is-active');
-          menu.classList.toggle('is-active');
+                const response = await makeRequest(`${apiUrl}/${id}`, 'DELETE');
+                displayResponse(
+                  '.delete-response',
+                  response || { message: 'Tâche supprimée avec succès' },
+                );
+              } catch (error) {
+                displayResponse('.delete-response', error);
+              }
+            });
         });
-      });
-    </script>
+      </script>
+      <footer class="footer has-text-centered">
+        <div class="container">
+          <p class="is-size-6">
+            &copy; <span id="year"></span> - Tous droits réservés à
+            <strong>Stéphan Gabriel NANDRASANTSOA</strong>
+          </p>
+        </div>
+      </footer>
+
+      <script>
+        // Ajoute l'année automatiquement
+        document.getElementById('year').textContent = new Date().getFullYear();
+        document.addEventListener('DOMContentLoaded', () => {
+          const burger = document.getElementById('burgerBtn');
+          const menu = document.getElementById('navbarMenu');
+
+          burger.addEventListener('click', () => {
+            burger.classList.toggle('is-active');
+            menu.classList.toggle('is-active');
+          });
+        });
+      </script>
+    </div>
   </body>
 </html>
