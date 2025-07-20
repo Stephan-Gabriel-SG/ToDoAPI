@@ -10,6 +10,7 @@ import {
 
 @Injectable()
 export class TodosService {
+  // Initialiser la liste des todos
   private todos: todoList = [
     {
       id: 1,
@@ -58,6 +59,8 @@ export class TodosService {
       updatedAt: '2025-07-19T09:15:00.000Z',
     },
   ];
+
+  // Créer une nouvelle tâche
   create(createTodoDto: CreateTodoDto) {
     const { title, priority, description, tags, isFavorite, isCompleted } =
       createTodoDto;
@@ -78,7 +81,7 @@ export class TodosService {
       data: this.todos.at(-1),
     };
   }
-
+  // Filtrer la liste des todos
   findAll(filter: filter): SuccessResponse {
     const { tag, priority, isFavorite, isCompleted, search } = filter;
 
@@ -115,6 +118,7 @@ export class TodosService {
     };
   }
 
+  // Rechercher un todo par ID
   findOne(id: number): SuccessResponse | ErrorResponse {
     const todo = this.todos.find((todo) => todo.id === Number(id));
     if (todo) {
@@ -133,7 +137,7 @@ export class TodosService {
       timestamp: new Date().toISOString(),
     };
   }
-
+  // Mettre à jour un todo
   update(
     id: number,
     updateTodoDto: UpdateTodoDto,
@@ -166,7 +170,7 @@ export class TodosService {
       data: updatedTodo,
     };
   }
-
+  // Supprimer un todo
   remove(id: number): SuccessResponse | ErrorResponse {
     const todoToBeDeleted = this.todos.find((todo) => todo.id === Number(id));
     if (!todoToBeDeleted) {
