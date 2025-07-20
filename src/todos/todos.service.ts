@@ -153,17 +153,15 @@ export class TodosService {
         timestamp: new Date().toISOString(),
       };
     }
+    const filteredUpdateTodo = Object.fromEntries(
+      Object.entries(updateTodoDto).filter(([, value]) => value !== undefined),
+    );
     const updatedTodo = {
-      id: todo.id,
-      title: updateTodoDto.title || todo.title,
-      description: updateTodoDto.description || todo.description,
-      priority: updateTodoDto.priority || todo.priority,
-      tags: updateTodoDto.tags || todo.tags,
-      isFavorite: updateTodoDto.isFavorite || todo.isFavorite,
-      isCompleted: updateTodoDto.isCompleted || todo.isCompleted,
-      createdAt: todo.createdAt,
+      ...todo,
+      ...filteredUpdateTodo,
       updatedAt: new Date().toISOString(),
     };
+
     this.todos = this.todos.map((todo) => {
       if (todo.id === Number(id)) {
         return updatedTodo;
