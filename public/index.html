@@ -367,15 +367,7 @@
       }
     }
 
-    /*************  ✨ Windsurf Command ⭐  *************/
-    /**
-     * Affiche la liste des tâches passées en paramètre
-     * en tant que carte Bulma dans le conteneur HTML
-     * d'id "todos"
-     *
-     * @param {todoEntry[]} todoList - La liste des tâches à afficher
-     */
-    /*******  cbd4a2e5-889a-4600-a6f3-a436bc4d1357  *******/
+    // Render todos
     function renderTodos(todoList) {
       const container = document.getElementById('todos');
       container.innerHTML = '';
@@ -417,11 +409,12 @@
         </div>
 
         <footer class="card-footer">
-        <button class="card-footer-item has-text-info" onclick="handleEditTodo(${todo.id})">
-          <i class='bx bx-edit-alt'></i> Modifier
+        <button class="card-footer-item has-text-info has-background-white has-border" onclick="handleEditTodo(${todo.id})">
+          <i class='bx bx-edit-alt pr-2'></i> <strong>Modifier</strong>
         </button>
-        <button class="card-footer-item has-text-danger" onclick="handleDeleteTodo(${todo.id})">
-          <i class='bx bx-trash'></i> Supprimer
+
+        <button class="card-footer-item has-text-danger has-background-white has-border" onclick="handleDeleteTodo(${todo.id})">
+          <i class='bx bx-trash pr-2'></i> <strong>Supprimer</strong>
         </button>
        </footer>
       `;
