@@ -12,7 +12,11 @@
   </head>
   <body>
     <div id="root">
-      <nav class="navbar" role="navigation" aria-label="main navigation">
+      <nav
+        class="navbar has-shadow"
+        role="navigation"
+        aria-label="main navigation"
+      >
         <div class="navbar-brand">
           <a class="navbar-item" href="/">
             <h1 class="title is-4">TodoList</h1>
@@ -35,6 +39,146 @@
           </div>
         </div>
       </nav>
+      <div class="container">
+        <!-- <div class="field"> -->
+        <div class="field has-addons">
+          <p class="control has-icons-left is-expanded">
+            <input
+              id="search"
+              type="text"
+              class="input is-rounded"
+              placeholder="Rechercher une tâche via mot clé titre ou description"
+            />
+            <span class="icon is-left">
+              <i class="bx bx-search"></i>
+            </span>
+          </p>
+          <p class="control">
+            <button class="button is-info">Rechercher</button>
+          </p>
+        </div>
+
+        <div class="filter box">
+          <h2 class="title is-5">Filtres</h2>
+
+          <!-- Filtrer par priorité -->
+          <div class="field">
+            <label class="label">Priorité</label>
+            <div class="control">
+              <div class="select">
+                <select id="priorityFilter">
+                  <option value="">-- Choisir --</option>
+                  <option value="high">Haute</option>
+                  <option value="medium">Moyenne</option>
+                  <option value="low">Basse</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Filtrer par tag -->
+          <div class="field">
+            <label class="label">Tag</label>
+            <div class="control">
+              <input
+                class="input is-rounded"
+                type="text"
+                id="tagFilter"
+                placeholder="Ex: travail"
+              />
+            </div>
+          </div>
+
+          <!-- Favoris -->
+          <div class="field">
+            <label class="checkbox">
+              <input type="checkbox" id="favoriteFilter" />
+              Favoris
+            </label>
+          </div>
+
+          <!-- Complétés -->
+          <div class="field">
+            <label class="checkbox">
+              <input type="checkbox" id="completedFilter" />
+              Complétés
+            </label>
+          </div>
+
+          <button class="button is-link" onclick="applyFilters()">
+            Appliquer
+          </button>
+        </div>
+        <!-- </div> -->
+
+        <h1 class="title is-3">Listes des tâches</h1>
+        <div id="todos" class="columns is-multiline is-variable is-4"></div>
+      </div>
     </div>
   </body>
+  <script>
+    /*************  ✨ Windsurf Command ⭐  *************/
+    /**
+     * Affiche la liste des tâches passées en paramètre
+     * en tant que carte Bulma dans le conteneur HTML
+     * d'id "todos"
+     *
+     * @param {todoEntry[]} todoList - La liste des tâches à afficher
+     */
+    /*******  cbd4a2e5-889a-4600-a6f3-a436bc4d1357  *******/
+    function renderTodos(todoList) {
+      const container = document.getElementById('todos');
+      container.innerHTML = '';
+
+      todoList.forEach((todo) => {
+        const card = document.createElement('div');
+        card.className = 'card mb-4';
+        card.id = `todo-${todo.id}`;
+        card.innerHTML = `
+      <header class="card-header">
+        <p class="card-header-title">
+          <i class='bx bx-list-ul bx-sm' style="margin-right:8px;"></i>
+          ${todo.title}
+        </p>
+        <div class="card-header-icon">
+          ${todo.isFavorite ? "<i class='bx bxs-star' style='color: gold;'></i>" : ''}
+        </div>
+      </header>
+
+      <div class="card-content">
+        <div class="content">
+          ${todo.description ? `<p><strong>Description:</strong> ${todo.description}</p>` : ''}
+          <p><strong>Priorité:</strong> ${priorityIcon(todo.priority)} ${todo.priority}</p>
+          ${todo.tags?.length ? `<p><strong>Tags:</strong> ${todo.tags.map((tag) => `<span class="tag is-info">${tag}</span>`).join(' ')}</p>` : ''}
+          <label class="checkbox mt-2">
+            <input type="checkbox" ${todo.isCompleted ? 'checked' : ''}> Complétée
+          </label>
+          <p class="is-size-7 mt-2 has-text-grey">Créée le ${todo.createdAt} • Modifiée le ${todo.updatedAt}</p>
+        </div>
+      </div>
+
+      <footer class="card-footer">
+        <a href="#" class="card-footer-item has-text-info"><i class='bx bx-edit-alt'></i> Modifier</a>
+        <a href="#" class="card-footer-item has-text-danger"><i class='bx bx-trash'></i> Supprimer</a>
+      </footer>
+    `;
+
+        container.appendChild(card);
+      });
+    }
+
+    // Fonction utilitaire pour afficher une icône selon la priorité
+    function priorityIcon(p) {
+      switch (p) {
+        case 'high':
+          return '🔴';
+        case 'medium':
+          return '🟠';
+        case 'low':
+          return '🟢';
+        default:
+          return '⚪';
+      }
+    }
+  </script>
 </html>
