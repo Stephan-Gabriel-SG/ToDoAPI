@@ -13,20 +13,31 @@
   <body>
     <div id="notificationArea" class="p-3"></div>
     <div id="root">
-      <nav class="navbar has-shadow p-2" role="navigation" aria-label="main navigation">
+      <nav
+        class="navbar has-shadow p-2"
+        role="navigation"
+        aria-label="main navigation"
+      >
         <div class="navbar-brand">
           <a class="navbar-item" href="/">
             <h1 class="title is-4">TodoList</h1>
           </a>
-      
+
           <!-- Burger -->
-          <a role="button" class="navbar-burger" id="burgerBtn" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+          <a
+            role="button"
+            class="navbar-burger"
+            id="burgerBtn"
+            aria-label="menu"
+            aria-expanded="false"
+            data-target="navbarMenu"
+          >
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
           </a>
         </div>
-      
+
         <div id="navbarMenu" class="navbar-menu">
           <div class="navbar-end">
             <a class="navbar-item" href="/">Accueil</a>
@@ -34,7 +45,7 @@
           </div>
         </div>
       </nav>
-      
+
       <div class="container">
         <div class="field has-addons py-5">
           <p class="control has-icons-left is-expanded">
@@ -45,7 +56,7 @@
               placeholder="Rechercher une tâche via mot clé titre ou description"
             />
             <span class="icon is-left">
-              <i class="bx bx-search  pr-2"></i>
+              <i class="bx bx-search pr-2"></i>
             </span>
           </p>
           <p class="control">
@@ -64,9 +75,10 @@
             onclick="toggleFilter()"
           >
             <i class="bx bx-filter pr-2"></i> Filtrer les tâches
+            <span id="filterCount" class="tag is-light is-info ml-2">0</span>
           </button>
         </div>
-        <div id="filters" class="box has-background-light">
+        <div id="filters" class="box has-background-light is-hidden">
           <h2 class="title is-4 has-text-centered mb-4">Filtres des tâches</h2>
 
           <div class="columns is-multiline is-centered">
@@ -139,7 +151,7 @@
               class="button is-primary is-rounded"
               onclick="applyFilters()"
             >
-              <i class="bx bx-search-alt  pr-2"></i> Appliquer les filtres
+              <i class="bx bx-search-alt pr-2"></i> Appliquer les filtres
             </button>
           </div>
         </div>
@@ -147,6 +159,27 @@
         <!-- </div> -->
 
         <h1 class="title is-3">Listes des tâches</h1>
+        <div class="tags has-addons is-flex is-flex-wrap-wrap gap-2 mb-4">
+          <span class="tag is-dark">
+            <i class="bx bx-list-ul mr-1"></i> Total
+          </span>
+          <span class="tag is-light" id="totalTodos">0</span>
+
+          <span class="tag is-info">
+            <i class="bx bx-heart mr-1"></i> Favoris
+          </span>
+          <span class="tag is-light" id="totalFavorites">0</span>
+
+          <span class="tag is-success">
+            <i class="bx bx-check-circle mr-1"></i> Complétés
+          </span>
+          <span class="tag is-light" id="totalCompleted">0</span>
+
+          <span class="tag is-warning">
+            <i class="bx bx-time-five mr-1"></i> Non complétés
+          </span>
+          <span class="tag is-light" id="totalNotCompleted">0</span>
+        </div>
         <div id="todos" class="columns is-multiline is-variable is-4"></div>
       </div>
     </div>
@@ -231,19 +264,22 @@
         </form>
       </div>
     </div>
-    <footer class="footer has-text-centered">
-      <div class="container">
-        <p class="is-size-6">
-          &copy; <span id="year"></span> - Tous droits réservés à <strong>Stéphan Gabriel NANDRASANTSOA</strong>
+    <footer class="footer">
+      <div class="container has-text-centered">
+        <p class="footer-text">
+          &copy; <span id="year"></span> - Tous droits réservés à
+          <strong class="has-text-primary"
+            >Stéphan Gabriel NANDRASANTSOA</strong
+          >
         </p>
       </div>
     </footer>
-    
-    <script>
-      // Ajoute l'année automatiquement
-      document.getElementById('year').textContent = new Date().getFullYear();
-    </script>
-    
+  </body>
+  <script>
+    // Ajoute l'année automatiquement
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
   <script type="text/javascript" async="true">
     // Conversion de priorité
     const priorityConvertion = {
@@ -436,9 +472,22 @@
           return '⚪';
       }
     }
+    // Fonction utilitaire pour mettre à jour le statistique
+    function updateStatistics() {
+      let { totalTodos, totalFavorites, totalCompleted, totalNotCompleted } = 0;
+      totalTodos = todoList.length;
+      totalFavorites = todoList.filter((todo) => todo.isFavorite).length;
+      totalCompleted = todoList.filter((todo) => todo.isCompleted).length;
+      totalNotCompleted = totalTodos - totalCompleted;
+
+      document.getElementById('totalTodos').textContent = totalTodos;
+      document.getElementById('totalFavorites').textContent = totalFavorites;
+      document.getElementById('totalCompleted').textContent = totalCompleted;
+      document.getElementById('totalNotCompleted').textContent =
+        totalNotCompleted;
+    }
 
     // Fonction utilitaire pour afficher une notification
-
     function showNotification(type, message, duration = 3000) {
       const area = document.getElementById('notificationArea');
 
@@ -468,8 +517,8 @@
     function toggleModal() {
       document.getElementById('todoModal').classList.toggle('is-active');
     }
-    
-  // Interaction avec les filtres
+
+    // Interaction avec les filtres
     function toggleFilter() {
       const filterBlock = document.getElementById('filters');
       const button = document.getElementById('toogleFilter');
@@ -485,6 +534,7 @@
       } else {
         button.innerHTML = `<i class="bx bx-x"></i> Cacher les filtres`;
       }
+      button.innerHTML += ` <span id="filterCount" class="tag is-light is-info ml-2">${filterCount}</span>`;
     }
 
     // Create todo handler
@@ -509,6 +559,7 @@
             toggleModal();
             document.getElementById('todoForm').reset();
             todoList.push(response.data);
+            updateStatistics();
             renderTodos(todoList);
           } else {
             showNotification('danger', response.message);
@@ -561,6 +612,7 @@
               });
               showNotification('success', response.message);
               renderTodos(todoList);
+              updateStatistics();
             } else {
               showNotification('danger', response.message);
             }
@@ -586,6 +638,7 @@
             showNotification('success', response.message);
             todoList = todoList.filter((todo) => todo.id !== id);
             renderTodos(todoList);
+            updateStatistics();
           } else {
             showNotification('danger', response.message);
           }
@@ -609,6 +662,7 @@
               return todo;
             });
             renderTodos(todoList);
+            updateStatistics();
           } else {
             showNotification('danger', response.message);
           }
@@ -628,7 +682,6 @@
         .toLowerCase();
       const isFavorite = document.getElementById('favoriteFilter').value;
       const isCompleted = document.getElementById('completedFilter').value;
-
       const filters = {
         ...(search && { search }),
         ...(priority && { priority }),
@@ -638,7 +691,10 @@
           isCompleted: isCompleted === 'true',
         }),
       };
-
+      // Mettre à jour le compteur
+      const filterTag = document.getElementById('filterCount');
+      filterTag.textContent = Object.keys(filters).length;
+      filterCount = Object.keys(filters).length;
       // Construire une URL avec query params
       const query = new URLSearchParams(filters).toString();
       const newUrl = `${window.location.pathname}?${query}`;
@@ -649,6 +705,7 @@
           if (response.success) {
             todoList = response.data;
             renderTodos(todoList);
+            updateStatistics();
           }
         })
         .catch((error) => {
@@ -658,23 +715,32 @@
 
     // Initialisation de la liste des tâches
     let todoList = [];
-
+    let filterCount = 0;
     getAllTodos().then((response) => {
       if (response.success) {
         todoList = response.data;
         renderTodos(todoList);
+        updateStatistics();
       }
     });
 
-    document.addEventListener("DOMContentLoaded", () => {
-  const burger = document.getElementById("burgerBtn");
-  const menu = document.getElementById("navbarMenu");
+    document.addEventListener('DOMContentLoaded', () => {
+      const burger = document.getElementById('burgerBtn');
+      const menu = document.getElementById('navbarMenu');
 
-  burger.addEventListener("click", () => {
-    burger.classList.toggle("is-active");
-    menu.classList.toggle("is-active");
-  });
-});
+      burger.addEventListener('click', () => {
+        burger.classList.toggle('is-active');
+        menu.classList.toggle('is-active');
+      });
+    });
 
+    document
+      .getElementById('search')
+      .addEventListener('keydown', function (event) {
+        if (event.key === 'Enter') {
+          event.preventDefault();
+          applyFilters();
+        }
+      });
   </script>
 </html>
