@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="has-navbar-fixed-top">
+<html lang="en" class="has-navbar-fixed-top" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -148,7 +148,7 @@
                   type="text"
                   placeholder="Titre de la tâche"
                   minlength="3"
-                  maxlength="100"
+                  maxlength="50"
                   required
                 />
               </div>
@@ -345,7 +345,7 @@
         card.className = 'card mb-4';
         card.id = `todo-${todo.id}`;
         card.innerHTML = `
-      <header class="card-header">
+      <header class="card-header ${todo.isCompleted ? 'completed ' : ''}">
         <p class="card-header-title">
           <i class='bx bx-list-ul bx-sm' style="margin-right:8px;"></i>
           ${todo.title}
@@ -361,7 +361,7 @@
           <p><strong>Priorité:</strong> ${priorityIcon(todo.priority)} ${priorityConvertion[todo.priority]}</p>
           ${todo.tags?.length ? `<p><strong>Tags:</strong> ${todo.tags.map((tag) => `<span class="tag is-info">${tag}</span>`).join(' ')}</p>` : ''}
           <label class="checkbox mt-2">
-            <input type="checkbox" ${todo.isCompleted ? 'checked' : ''}> Complétée
+            <input type="checkbox" ${todo.isCompleted ? 'checked' : ''} onChange="handleToggleComplete(${todo.id})"> Complétée
           </label>
           <p class="is-size-7 mt-2 has-text-grey">Créée le ${formatISODate(todo.createdAt)} • Modifiée le ${formatISODate(todo.updatedAt)}</p>
         </div>
@@ -478,13 +478,18 @@
       const form = document.getElementById('todoForm');
       form.onsubmit = function (event) {
         event.preventDefault();
-
+        const description = document
+          .getElementById('newDescription')
+          .value.trim();
         const updatedTodo = {
           title: document.getElementById('newTitle').value.trim(),
-          description: document.getElementById('newDescription').value.trim(),
           priority: document.getElementById('newPriority').value,
           isFavorite: document.getElementById('newFavorite').checked,
         };
+
+        if (description.length > 0) {
+          updatedTodo.description = description;
+        }
 
         updateTodo(todoId, updatedTodo)
           .then((response) => {
@@ -523,6 +528,29 @@
           if (response.success) {
             showNotification('success', response.message);
             todoList = todoList.filter((todo) => todo.id !== id);
+            renderTodos(todoList);
+          } else {
+            showNotification('danger', response.message);
+          }
+        })
+        .catch((error) => {
+          showNotification('danger', error);
+        });
+    }
+
+    // handle isCompleted handler
+    function handleToggleComplete(id) {
+      updateTodo(id, {
+        isCompleted: !todoList.find((todo) => todo.id === id).isCompleted,
+      })
+        .then((response) => {
+          if (response.success) {
+            todoList = todoList.map((todo) => {
+              if (todo.id === id) {
+                return response.data;
+              }
+              return todo;
+            });
             renderTodos(todoList);
           } else {
             showNotification('danger', response.message);
