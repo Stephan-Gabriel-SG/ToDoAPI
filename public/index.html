@@ -147,6 +147,8 @@
                   class="input"
                   type="text"
                   placeholder="Titre de la tâche"
+                  minlength="3"
+                  maxlength="100"
                   required
                 />
               </div>
@@ -160,6 +162,7 @@
                   id="newDescription"
                   class="textarea"
                   placeholder="Description..."
+                  minlength="10"
                 ></textarea>
               </div>
             </div>
@@ -239,10 +242,6 @@
 
         if (!response.ok) {
           const errorDetails = await response.json();
-          console.error(
-            "Détails de l'erreur:",
-            errorDetails.message.join(', '),
-          );
           throw new Error(`${errorDetails.message.join(', ')}`);
         }
 
@@ -289,7 +288,7 @@
     async function updateTodo(id, updatedData) {
       try {
         const response = await fetch(`${api_url}/${id}`, {
-          method: 'PUT', // ou 'PATCH' selon votre API
+          method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
           },
@@ -297,7 +296,8 @@
         });
 
         if (!response.ok) {
-          throw new Error(`Erreur HTTP: ${response.status}`);
+          const errorDetails = await response.json();
+          throw new Error(`${errorDetails.message.join(', ')}`);
         }
 
         return await response.json();
@@ -315,7 +315,8 @@
         });
 
         if (!response.ok) {
-          throw new Error(`Erreur HTTP: ${response.status}`);
+          const errorDetails = await response.json();
+          throw new Error(`${errorDetails.message.join(', ')}`);
         }
 
         // Certaines APIs ne retournent rien pour DELETE, d'autres retournent l'objet supprimé
@@ -367,9 +368,13 @@
       </div>
 
       <footer class="card-footer">
-        <a href="#" class="card-footer-item has-text-info"><i class='bx bx-edit-alt'></i> Modifier</a>
-        <a href="#" class="card-footer-item has-text-danger"><i class='bx bx-trash'></i> Supprimer</a>
-      </footer>
+      <button class="card-footer-item has-text-info" onclick="handleEditTodo(${todo.id})">
+        <i class='bx bx-edit-alt'></i> Modifier
+      </button>
+      <button class="card-footer-item has-text-danger" onclick="handleDeleteTodo(${todo.id})">
+        <i class='bx bx-trash'></i> Supprimer
+      </button>
+     </footer>
     `;
 
         container.appendChild(card);
@@ -391,12 +396,20 @@
     }
 
     // Fonction utilitaire pour afficher une notification
+
     function showNotification(type, message, duration = 3000) {
       const area = document.getElementById('notificationArea');
 
       const notif = document.createElement('div');
-      notif.className = `notification is-${type} is-light`;
+      notif.className = `notification is-${type}`;
+      notif.style.position = 'fixed';
+      notif.style.width = '80vw';
+      notif.style.top = '10px';
+      notif.style.left = '50%';
+      notif.style.transform = 'translateX(-50%)';
       notif.style.zIndex = '9999';
+      notif.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)';
+
       notif.innerHTML = `
     <button class="delete" onclick="this.parentElement.remove()"></button>
     ${message}
@@ -417,6 +430,7 @@
       document.getElementById('filters').classList.toggle('is-hidden');
     }
 
+    // Create todo handler
     function submitTodo(event) {
       event.preventDefault();
 
@@ -438,6 +452,77 @@
             toggleModal();
             document.getElementById('todoForm').reset();
             todoList.push(response.data);
+            renderTodos(todoList);
+          } else {
+            showNotification('danger', response.message);
+          }
+        })
+        .catch((error) => {
+          showNotification('danger', error);
+        });
+    }
+
+    // Edit todo handler
+    function handleEditTodo(todoId) {
+      // Modifier le titre du modal
+      document.querySelector('.modal-card-title').textContent =
+        'Modifier la tâche';
+      let todo = todoList.find((todo) => todo.id === todoId);
+      // Injecter les valeurs existantes
+      document.getElementById('newTitle').value = todo.title;
+      document.getElementById('newDescription').value = todo.description || '';
+      document.getElementById('newPriority').value = todo.priority;
+      document.getElementById('newFavorite').checked = todo.isFavorite || false;
+
+      // Changer l’action du bouton
+      const form = document.getElementById('todoForm');
+      form.onsubmit = function (event) {
+        event.preventDefault();
+
+        const updatedTodo = {
+          title: document.getElementById('newTitle').value.trim(),
+          description: document.getElementById('newDescription').value.trim(),
+          priority: document.getElementById('newPriority').value,
+          isFavorite: document.getElementById('newFavorite').checked,
+        };
+
+        updateTodo(todoId, updatedTodo)
+          .then((response) => {
+            if (response.success) {
+              showNotification('success', response.message);
+              toggleModal();
+              todoList = todoList.map((todo) => {
+                if (todo.id === todoId) {
+                  return response.data;
+                }
+                return todo;
+              });
+              showNotification('success', response.message);
+              renderTodos(todoList);
+            } else {
+              showNotification('danger', response.message);
+            }
+          })
+          .catch((error) => {
+            showNotification('danger', error);
+          });
+      };
+
+      toggleModal();
+    }
+
+    // Deleted todo handler
+    function handleDeleteTodo(id) {
+      const confirmation = confirm(
+        '🗑️ Es-tu sûr de vouloir supprimer cette tâche ?',
+      );
+      if (!confirmation) return;
+
+      deleteTodo(id)
+        .then((response) => {
+          if (response.success) {
+            showNotification('success', response.message);
+            todoList = todoList.filter((todo) => todo.id !== id);
             renderTodos(todoList);
           } else {
             showNotification('danger', response.message);
