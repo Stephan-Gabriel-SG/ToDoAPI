@@ -425,7 +425,7 @@
         card.id = `todo-${todo.id}`;
         card.innerHTML = `
         <header class="card-header ${todo.isCompleted ? 'completed ' : ''}">
-          <p class="card-header-title">
+          <p class="card-header-title" id='card-title'>
             <i class='bx bx-list-ul bx-sm' style="margin-right:8px;"></i>
             ${todo.title}
           </p>

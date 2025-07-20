@@ -47,6 +47,11 @@ body {
   display: flex;
   flex-direction: column;
 }
+#card-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
 .card-content .content p {
   word-break: break-word;
