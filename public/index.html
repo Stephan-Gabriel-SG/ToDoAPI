@@ -116,7 +116,119 @@
       </div>
     </div>
   </body>
-  <script>
+  <script type="text/javascript" async="true">
+    // Formatage formatISODate
+    function formatISODate(isoString) {
+      const date = new Date(isoString);
+
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0'); // les mois commencent à 0
+      const year = date.getFullYear();
+
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+
+      return `${day}-${month}-${year} ${hours}:${minutes}`;
+    }
+
+    // API REQUEST
+    const api_url = 'http://localhost:3000/todos';
+
+    // CREATE - Créer un nouvel élément
+    async function createTodo(todoData) {
+      try {
+        const response = await fetch(api_url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(todoData),
+        });
+
+        if (!response.ok) {
+          throw new Error(`Erreur HTTP: ${response.status}`);
+        }
+
+        return await response.json();
+      } catch (error) {
+        console.error('Erreur lors de la création:', error);
+        throw error;
+      }
+    }
+
+    // READ - Lire tous les éléments
+    async function getAllTodos() {
+      try {
+        const response = await fetch(api_url);
+
+        if (!response.ok) {
+          throw new Error(`Erreur HTTP: ${response.status}`);
+        }
+
+        return await response.json();
+      } catch (error) {
+        console.error('Erreur lors de la récupération des todos:', error);
+        throw error;
+      }
+    }
+
+    // READ - Lire un élément spécifique par ID
+    async function getTodoById(id) {
+      try {
+        const response = await fetch(`${api_url}/${id}`);
+
+        if (!response.ok) {
+          throw new Error(`Erreur HTTP: ${response.status}`);
+        }
+
+        return await response.json();
+      } catch (error) {
+        console.error(`Erreur lors de la récupération du todo ${id}:`, error);
+        throw error;
+      }
+    }
+
+    // UPDATE - Mettre à jour un élément
+    async function updateTodo(id, updatedData) {
+      try {
+        const response = await fetch(`${api_url}/${id}`, {
+          method: 'PUT', // ou 'PATCH' selon votre API
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(updatedData),
+        });
+
+        if (!response.ok) {
+          throw new Error(`Erreur HTTP: ${response.status}`);
+        }
+
+        return await response.json();
+      } catch (error) {
+        console.error(`Erreur lors de la mise à jour du todo ${id}:`, error);
+        throw error;
+      }
+    }
+
+    // DELETE - Supprimer un élément
+    async function deleteTodo(id) {
+      try {
+        const response = await fetch(`${api_url}/${id}`, {
+          method: 'DELETE',
+        });
+
+        if (!response.ok) {
+          throw new Error(`Erreur HTTP: ${response.status}`);
+        }
+
+        // Certaines APIs ne retournent rien pour DELETE, d'autres retournent l'objet supprimé
+        return response.status === 204 ? null : await response.json();
+      } catch (error) {
+        console.error(`Erreur lors de la suppression du todo ${id}:`, error);
+        throw error;
+      }
+    }
+
     /*************  ✨ Windsurf Command ⭐  *************/
     /**
      * Affiche la liste des tâches passées en paramètre
@@ -153,7 +265,7 @@
           <label class="checkbox mt-2">
             <input type="checkbox" ${todo.isCompleted ? 'checked' : ''}> Complétée
           </label>
-          <p class="is-size-7 mt-2 has-text-grey">Créée le ${todo.createdAt} • Modifiée le ${todo.updatedAt}</p>
+          <p class="is-size-7 mt-2 has-text-grey">Créée le ${formatISODate(todo.createdAt)} • Modifiée le ${formatISODate(todo.updatedAt)}</p>
         </div>
       </div>
 
@@ -180,5 +292,13 @@
           return '⚪';
       }
     }
+
+    let todoList = [];
+    getAllTodos().then((response) => {
+      if (response.success) {
+        todoList = response.data;
+        renderTodos(todoList);
+      }
+    });
   </script>
 </html>
