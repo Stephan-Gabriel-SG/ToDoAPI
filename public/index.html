@@ -54,68 +54,101 @@
             </span>
           </p>
           <p class="control">
-            <button class="button is-info">Rechercher</button>
+            <button class="button is-primary" onclick="applyFilters()">
+              Rechercher
+            </button>
           </p>
         </div>
         <div class="buttons">
           <button class="button is-primary" onclick="toggleModal()">
             <i class="bx bx-plus"></i> Ajouter une tâche
           </button>
-          <button class="button is-primary" onclick="toggleFilter()">
+          <button
+            class="button is-primary"
+            id="toogleFilter"
+            onclick="toggleFilter()"
+          >
             <i class="bx bx-filter"></i> Filtrer les tâches
           </button>
         </div>
-        <div id="filters" class="filter box is-hidden">
-          <h2 class="title is-5">Filtres</h2>
+        <div id="filters" class="box has-background-light">
+          <h2 class="title is-4 has-text-centered mb-4">Filtres des tâches</h2>
 
-          <!-- Filtrer par priorité -->
-          <div class="field">
-            <label class="label">Priorité</label>
-            <div class="control">
-              <div class="select">
-                <select id="priorityFilter">
-                  <option value="">-- Choisir --</option>
-                  <option value="high">Haute</option>
-                  <option value="medium">Moyenne</option>
-                  <option value="low">Basse</option>
-                </select>
+          <div class="columns is-multiline is-centered">
+            <!-- Priorité -->
+            <div class="column is-6">
+              <div class="field">
+                <label class="label has-text-weight-semibold">Priorité</label>
+                <div class="control">
+                  <div class="select is-fullwidth">
+                    <select id="priorityFilter">
+                      <option value="">-- Choisir --</option>
+                      <option value="low">🟢 Basse</option>
+                      <option value="medium">🟠 Moyenne</option>
+                      <option value="high">🔴 Haute</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tag -->
+            <div class="column is-6">
+              <div class="field">
+                <label class="label has-text-weight-semibold">Tag</label>
+                <div class="control">
+                  <input
+                    class="input is-rounded"
+                    type="text"
+                    id="tagFilter"
+                    placeholder="Ex: travail"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Favoris -->
+            <div class="column is-6">
+              <div class="field">
+                <label class="label">Favoris</label>
+                <div class="control">
+                  <div class="select is-fullwidth">
+                    <select id="favoriteFilter">
+                      <option value="">-- Tous --</option>
+                      <option value="true">Oui</option>
+                      <option value="false">Non</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Complétés -->
+            <div class="column is-6">
+              <div class="field">
+                <label class="label">Complétés</label>
+                <div class="control">
+                  <div class="select is-fullwidth">
+                    <select id="completedFilter">
+                      <option value="">-- Tous --</option>
+                      <option value="true">Oui</option>
+                      <option value="false">Non</option>
+                    </select>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-
-          <!-- Filtrer par tag -->
-          <div class="field">
-            <label class="label">Tag</label>
-            <div class="control">
-              <input
-                class="input is-rounded"
-                type="text"
-                id="tagFilter"
-                placeholder="Ex: travail"
-              />
-            </div>
+          <div class="has-text-centered mt-3">
+            <button
+              class="button is-primary is-rounded"
+              onclick="applyFilters()"
+            >
+              <i class="bx bx-search-alt"></i> Appliquer les filtres
+            </button>
           </div>
-
-          <!-- Favoris -->
-          <div class="field">
-            <label class="checkbox">
-              <input type="checkbox" id="favoriteFilter" />
-              Favoris
-            </label>
-          </div>
-
-          <!-- Complétés -->
-          <div class="field">
-            <label class="checkbox">
-              <input type="checkbox" id="completedFilter" />
-              Complétés
-            </label>
-          </div>
-
-          <button class="button is-link" onclick="applyFilters()">
-            Appliquer
-          </button>
         </div>
+
         <!-- </div> -->
 
         <h1 class="title is-3">Listes des tâches</h1>
@@ -253,9 +286,9 @@
     }
 
     // READ - Lire tous les éléments
-    async function getAllTodos() {
+    async function getAllTodos(query = '') {
       try {
-        const response = await fetch(api_url);
+        const response = await fetch(`${api_url}?${query}`);
 
         if (!response.ok) {
           throw new Error(`Erreur HTTP: ${response.status}`);
@@ -339,43 +372,52 @@
     function renderTodos(todoList) {
       const container = document.getElementById('todos');
       container.innerHTML = '';
+      if (todoList.length === 0) {
+        const message = document.createElement('h3');
+        message.className = ' is-warning has-text-centered';
+        message.innerHTML = `
+    <i class='bx bx-info-circle'></i> Aucune tâche trouvée.
+  `;
+        container.appendChild(message);
+        return;
+      }
 
       todoList.forEach((todo) => {
         const card = document.createElement('div');
         card.className = 'card mb-4';
         card.id = `todo-${todo.id}`;
         card.innerHTML = `
-      <header class="card-header ${todo.isCompleted ? 'completed ' : ''}">
-        <p class="card-header-title">
-          <i class='bx bx-list-ul bx-sm' style="margin-right:8px;"></i>
-          ${todo.title}
-        </p>
-        <div class="card-header-icon">
-          ${todo.isFavorite ? "<i class='bx bxs-star' style='color: gold;'></i>" : ''}
-        </div>
-      </header>
+        <header class="card-header ${todo.isCompleted ? 'completed ' : ''}">
+          <p class="card-header-title">
+            <i class='bx bx-list-ul bx-sm' style="margin-right:8px;"></i>
+            ${todo.title}
+          </p>
+          <div class="card-header-icon">
+            ${todo.isFavorite ? "<i class='bx bxs-star' style='color: gold;'></i>" : ''}
+          </div>
+        </header>
 
-      <div class="card-content">
-        <div class="content">
-          ${todo.description ? `<p><strong>Description:</strong> ${todo.description}</p>` : ''}
-          <p><strong>Priorité:</strong> ${priorityIcon(todo.priority)} ${priorityConvertion[todo.priority]}</p>
-          ${todo.tags?.length ? `<p><strong>Tags:</strong> ${todo.tags.map((tag) => `<span class="tag is-info">${tag}</span>`).join(' ')}</p>` : ''}
-          <label class="checkbox mt-2">
-            <input type="checkbox" ${todo.isCompleted ? 'checked' : ''} onChange="handleToggleComplete(${todo.id})"> Complétée
-          </label>
-          <p class="is-size-7 mt-2 has-text-grey">Créée le ${formatISODate(todo.createdAt)} • Modifiée le ${formatISODate(todo.updatedAt)}</p>
+        <div class="card-content">
+          <div class="content">
+            ${todo.description ? `<p><strong>Description:</strong> ${todo.description}</p>` : ''}
+            <p><strong>Priorité:</strong> ${priorityIcon(todo.priority)} ${priorityConvertion[todo.priority]}</p>
+            ${todo.tags?.length ? `<p><strong>Tags:</strong> ${todo.tags.map((tag) => `<span class="tag is-info">${tag}</span>`).join(' ')}</p>` : ''}
+            <label class="checkbox mt-2">
+              <input type="checkbox" ${todo.isCompleted ? 'checked' : ''} onChange="handleToggleComplete(${todo.id})"> Complétée
+            </label>
+            <p class="is-size-7 mt-2 has-text-grey">Créée le ${formatISODate(todo.createdAt)} • Modifiée le ${formatISODate(todo.updatedAt)}</p>
+          </div>
         </div>
-      </div>
 
-      <footer class="card-footer">
-      <button class="card-footer-item has-text-info" onclick="handleEditTodo(${todo.id})">
-        <i class='bx bx-edit-alt'></i> Modifier
-      </button>
-      <button class="card-footer-item has-text-danger" onclick="handleDeleteTodo(${todo.id})">
-        <i class='bx bx-trash'></i> Supprimer
-      </button>
-     </footer>
-    `;
+        <footer class="card-footer">
+        <button class="card-footer-item has-text-info" onclick="handleEditTodo(${todo.id})">
+          <i class='bx bx-edit-alt'></i> Modifier
+        </button>
+        <button class="card-footer-item has-text-danger" onclick="handleDeleteTodo(${todo.id})">
+          <i class='bx bx-trash'></i> Supprimer
+        </button>
+       </footer>
+      `;
 
         container.appendChild(card);
       });
@@ -411,9 +453,9 @@
       notif.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)';
 
       notif.innerHTML = `
-    <button class="delete" onclick="this.parentElement.remove()"></button>
-    ${message}
-  `;
+      <button class="delete" onclick="this.parentElement.remove()"></button>
+      ${message}
+    `;
 
       area.appendChild(notif);
 
@@ -427,7 +469,20 @@
       document.getElementById('todoModal').classList.toggle('is-active');
     }
     function toggleFilter() {
-      document.getElementById('filters').classList.toggle('is-hidden');
+      const filterBlock = document.getElementById('filters');
+      const button = document.getElementById('toogleFilter');
+
+      const isVisible = !filterBlock.classList.contains('is-hidden');
+
+      // Toggle visibility
+      filterBlock.classList.toggle('is-hidden');
+
+      // Mettre à jour le texte et l’icône
+      if (isVisible) {
+        button.innerHTML = `<i class="bx bx-filter"></i> Afficher les filtres`;
+      } else {
+        button.innerHTML = `<i class="bx bx-x"></i> Cacher les filtres`;
+      }
     }
 
     // Create todo handler
@@ -538,7 +593,7 @@
         });
     }
 
-    // handle isCompleted handler
+    // Toggle todo handler
     function handleToggleComplete(id) {
       updateTodo(id, {
         isCompleted: !todoList.find((todo) => todo.id === id).isCompleted,
@@ -554,6 +609,44 @@
             renderTodos(todoList);
           } else {
             showNotification('danger', response.message);
+          }
+        })
+        .catch((error) => {
+          showNotification('danger', error);
+        });
+    }
+
+    // Interaction avec les filtres
+    function applyFilters() {
+      const priority = document.getElementById('priorityFilter').value;
+      const search = document.getElementById('search').value;
+      const tag = document
+        .getElementById('tagFilter')
+        .value.trim()
+        .toLowerCase();
+      const isFavorite = document.getElementById('favoriteFilter').value;
+      const isCompleted = document.getElementById('completedFilter').value;
+
+      const filters = {
+        ...(search && { search }),
+        ...(priority && { priority }),
+        ...(tag && { tag }),
+        ...(isFavorite !== '' && { isFavorite: isFavorite === 'true' }),
+        ...(isCompleted !== '' && {
+          isCompleted: isCompleted === 'true',
+        }),
+      };
+
+      // Construire une URL avec query params
+      const query = new URLSearchParams(filters).toString();
+      const newUrl = `${window.location.pathname}?${query}`;
+      // Mettre à jour l’URL
+      window.history.pushState({}, '', newUrl);
+      getAllTodos(query)
+        .then((response) => {
+          if (response.success) {
+            todoList = response.data;
+            renderTodos(todoList);
           }
         })
         .catch((error) => {
