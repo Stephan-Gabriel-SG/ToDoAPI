@@ -14,3 +14,87 @@ body {
   padding-inline: 10px;
   height: max-content;
 }
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-block: 20px;
+}
+
+#todos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.column {
+  flex: 1 0 45%; /* Deux cartes par ligne sur desktop, une sur mobile */
+  max-width: 400px;
+}
+
+#todos .card {
+  width: 100%;
+  max-width: 400px;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-content .content p {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.completed p {
+  position: relative;
+  text-decoration: line-through;
+  color: #6b7280; /* gris neutre */
+  opacity: 0.75;
+  transition: background 0.3s ease;
+  background-color: #f5f5f5;
+  border-left: 4px solid #48c774; /* vert succès Bulma */
+  padding-left: 1rem;
+}
+
+/* documentation */
+.endpoint-card {
+  margin-bottom: 2rem;
+  border-left: 4px solid #3273dc;
+}
+.try-it-section {
+  background-color: #f5f5f5;
+  padding: 1.5rem;
+  border-radius: 6px;
+  margin-top: 1rem;
+}
+.response-area {
+  min-height: 100px;
+  background-color: #282c34;
+  color: #abb2bf;
+  padding: 1rem;
+  border-radius: 6px;
+  margin-top: 1rem;
+  font-family: monospace;
+  white-space: pre-wrap;
+  max-height: 500px;
+  overflow-y: scroll;
+}
+.tabs li.is-active a {
+  border-bottom-color: #3273dc;
+  color: #3273dc;
+}
+.code-block {
+  margin-bottom: 1rem;
+}
+
+/* Footer */
+.footer {
+  padding: 2rem 1.5rem;
+  background-color: #f5f5f5;
+  border-top: 1px solid #eaeaea;
+  margin-top: 3rem;
+}

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="has-navbar-fixed-top" data-theme="light">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,35 +13,30 @@
   <body>
     <div id="notificationArea" class="p-3"></div>
     <div id="root">
-      <nav
-        class="navbar has-shadow"
-        role="navigation"
-        aria-label="main navigation"
-      >
+      <nav class="navbar has-shadow p-2" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
           <a class="navbar-item" href="/">
             <h1 class="title is-4">TodoList</h1>
           </a>
-          <a
-            role="button"
-            class="navbar-burger"
-            aria-label="menu"
-            aria-expanded="false"
-            data-target="navbarBasicExample"
-          >
-            <i class="bx bx-menu bx-sm"></i>
+      
+          <!-- Burger -->
+          <a role="button" class="navbar-burger" id="burgerBtn" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
           </a>
         </div>
-
-        <div class="navbar-menu">
+      
+        <div id="navbarMenu" class="navbar-menu">
           <div class="navbar-end">
             <a class="navbar-item" href="/">Accueil</a>
             <a class="navbar-item" href="/docs.html">Documentation</a>
           </div>
         </div>
       </nav>
+      
       <div class="container">
-        <div class="field has-addons">
+        <div class="field has-addons py-5">
           <p class="control has-icons-left is-expanded">
             <input
               id="search"
@@ -236,7 +231,19 @@
         </form>
       </div>
     </div>
-  </body>
+    <footer class="footer has-text-centered">
+      <div class="container">
+        <p class="is-size-6">
+          &copy; <span id="year"></span> - Tous droits réservés à <strong>Stéphan Gabriel NANDRASANTSOA</strong>
+        </p>
+      </div>
+    </footer>
+    
+    <script>
+      // Ajoute l'année automatiquement
+      document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+    
   <script type="text/javascript" async="true">
     // Conversion de priorité
     const priorityConvertion = {
@@ -468,6 +475,8 @@
     function toggleModal() {
       document.getElementById('todoModal').classList.toggle('is-active');
     }
+    
+  // Interaction avec les filtres
     function toggleFilter() {
       const filterBlock = document.getElementById('filters');
       const button = document.getElementById('toogleFilter');
@@ -663,5 +672,16 @@
         renderTodos(todoList);
       }
     });
+
+    document.addEventListener("DOMContentLoaded", () => {
+  const burger = document.getElementById("burgerBtn");
+  const menu = document.getElementById("navbarMenu");
+
+  burger.addEventListener("click", () => {
+    burger.classList.toggle("is-active");
+    menu.classList.toggle("is-active");
+  });
+});
+
   </script>
 </html>
