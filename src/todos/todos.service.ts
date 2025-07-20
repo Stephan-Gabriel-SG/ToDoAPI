@@ -10,7 +10,54 @@ import {
 
 @Injectable()
 export class TodosService {
-  private todos: todoList = [];
+  private todos: todoList = [
+    {
+      id: 1,
+      title: "Créer l'interface des filtres",
+      description:
+        'Implémenter le composant de filtre avec Bulma et JavaScript.',
+      priority: 'high',
+      tags: ['frontend', 'UI'],
+      isFavorite: true,
+      isCompleted: false,
+      createdAt: '2025-07-20T10:00:00.000Z',
+      updatedAt: '2025-07-20T10:00:00.000Z',
+    },
+    {
+      id: 2,
+      title: 'Préparer le backend NestJS',
+      description:
+        'Initialiser le projet, configurer les modules, et créer l’API.',
+      priority: 'medium',
+      tags: ['backend', 'NestJS'],
+      isFavorite: false,
+      isCompleted: true,
+      createdAt: '2025-07-18T08:30:00.000Z',
+      updatedAt: '2025-07-19T15:45:00.000Z',
+    },
+    {
+      id: 3,
+      title: 'Nettoyer le CSS et optimiser les classes',
+      priority: 'low',
+      tags: ['design', 'refactor'],
+      isFavorite: false,
+      isCompleted: false,
+      createdAt: '2025-07-17T09:00:00.000Z',
+      updatedAt: '2025-07-17T09:00:00.000Z',
+    },
+    {
+      id: 4,
+      title: 'Publier un post LinkedIn',
+      description:
+        'Expliquer comment j’ai automatisé une tâche avec Excel + VBA.',
+      priority: 'high',
+      tags: ['communication', 'vba'],
+      isFavorite: true,
+      isCompleted: true,
+      createdAt: '2025-07-16T14:00:00.000Z',
+      updatedAt: '2025-07-19T09:15:00.000Z',
+    },
+  ];
   create(createTodoDto: CreateTodoDto) {
     const { title, priority, description, tags, isFavorite, isCompleted } =
       createTodoDto;
@@ -27,6 +74,7 @@ export class TodosService {
     });
     return {
       success: true,
+      message: 'Le todo a bien été créé.',
       data: this.todos.at(-1),
     };
   }
