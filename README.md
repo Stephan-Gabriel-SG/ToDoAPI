@@ -17,6 +17,32 @@ Une API RESTful pour la gestion de tâches (todos) avec système de priorités, 
 - **Validation**: class-validator, class-transformer
 - **Documentation**: Manuel
 
+## Fichier statique interactif
+
+Ce projet inclut un petit fichier front-end en HTML et CSS, conçu pour permettre aux utilisateurs de tester facilement les fonctionnalités. Il est divisé en deux sections principales
+
+### 1- Accueil :
+
+- Interface intuitive pour créer et gérer des tâches (ToDo).Toutes les fonctionnalités essentielles sont incluses :
+- **ajout, édition, suppression, marquage comme terminé, etc**.
+- Expérience utilisateur fluide et responsive, idéale pour une prise en main rapide
+
+> 🔧 Lien de test en local : **[http://localhost:3000](http://localhost:3000)**
+
+![home page](/docs/home.png)
+
+### 2- Documentation :
+
+- Interface intégrée permettant de tester directement l’API.
+- Les utilisateurs peuvent explorer les différentes routes et interagir avec les données.
+- Une manière simple et efficace de comprendre le fonctionnement côté back-end.
+
+> 🔧 Lien de test en local : [http://localhost:3000/docs.html](http://localhost:3000/docs.html)  
+> ⚠️ Assurez-vous que le serveur soit lancé en local pour accéder à la documentation.
+
+![doc api](/docs/doc-2.png)
+![doc api](/docs/doc-1.png)
+
 ## 🏁 Installation
 
 ```bash
@@ -33,7 +59,7 @@ Une API RESTful pour la gestion de tâches (todos) avec système de priorités, 
     npm run start:dev
 ```
 
-### L'API fonctionne sur **`http://localhost:3000`** par défaut.
+### L'API fonctionne sur **[http://localhost:3000](http://localhost:3000)** par défaut.
 
 ## 📮 Endpoints disponibles
 
