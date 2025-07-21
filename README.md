@@ -110,10 +110,12 @@ Structure Todo
 
 Création d'une tâche
 
-```json
-// POST /todos
-// Content-Type: application/json
+- POST /todos
+- Content-Type: application/json
 
+Contenu du todo
+
+```json
 {
   "title": "Finaliser le projet",
   "description": "Terminer la documentation technique",
