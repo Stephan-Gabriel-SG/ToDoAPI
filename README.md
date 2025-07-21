@@ -111,16 +111,16 @@ Structure Todo
 Création d'une tâche
 
 ```json
-    POST /todos
-    Content-Type: application/json
+// POST /todos
+// Content-Type: application/json
 
-    {
-        "title": "Finaliser le projet",
-        "description": "Terminer la documentation technique",
-        "priority": "high",
-        "tags": ["work", "urgent"],
-        "isFavorite": true
-    }
+{
+  "title": "Finaliser le projet",
+  "description": "Terminer la documentation technique",
+  "priority": "high",
+  "tags": ["work", "urgent"],
+  "isFavorite": true
+}
 ```
 
 Réponse réussie
