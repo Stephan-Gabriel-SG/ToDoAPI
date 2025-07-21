@@ -92,7 +92,7 @@ GET /todos?tag=projet&isCompleted=false&isFavoris=true&priority=high
 
 Structure Todo
 
-```json
+```js
     interface Todo {
         id: number;                   // Identifiant unique
         title: string;                // Titre de la tâche (3-100 caractères)
@@ -145,7 +145,7 @@ Réponse réussie
 
 ## 🚨 Gestion des Erreurs
 
-```json
+```js
 {
   success: false;
   error: {
